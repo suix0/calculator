@@ -88,7 +88,9 @@ body {
   
 
 .num,
-.op {
+.op1,
+.op2,
+.decimal {
   border: 3px solid #7D0A0A;
   height: 75px;
   width: 90px;
@@ -102,4 +104,14 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.op1.clear {
+  background-color: #BF3131;
+  color: #F3EDC8;
+}
+
+.op2.equals {
+  background-color: rgb(99, 185, 99);
+  color: #F3EDC8;
 }

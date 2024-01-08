@@ -52,8 +52,32 @@ const buttons = document.getElementsByTagName('button');
   })
 })
 
+const display = document.querySelector('.display-text');
+const numbers = document.getElementsByClassName('num');
+const decimal = document.querySelector('.decimal');
+const clear = document.querySelector('.op1.clear');
+const operations = document.querySelector('.op')
 
+// Store the number when its button is clicked
+let nums = [];
+let num = '';
 
+// Add the numbers to display when their buttons are clicked
+[...numbers].forEach(number => {
+  number.addEventListener('click', () => {
+    num += number.textContent; // Also save it to num variable for calculation purposes
+    display.textContent += number.textContent;
+  })
+});
 
+decimal.addEventListener('click', () => {
+  num += decimal.textContent;
+  display.textContent += decimal.textContent;
+});
+
+// Clear display
+clear.addEventListener('click', () => {
+  display.textContent = '';
+})
 
 
