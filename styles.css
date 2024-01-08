@@ -83,7 +83,7 @@ body {
 }
 
 .last.zero {
-  flex: auto;
+  flex: 6 1 auto;
 }
   
 

@@ -15,8 +15,12 @@ function division(...nums) {
   return nums.reduce((divisionResult, num) => divisionResult / num);
 }
 
+function power(num, exponent) {
+  return Math.pow(num, exponent);
+}
+
 // Create a function to do some operations
-function operate(operation, ...nums) {
+function operate(operation, exponent, ...nums) {
   let result = 0;
 
   if (operation === '+') {
@@ -27,8 +31,27 @@ function operate(operation, ...nums) {
     result = multiply(...nums);
   } else if (operation === '÷') {
     result = division(...nums);
+  } else if (operation === '^') {
+    result = power(...nums, exponent)
   }
 
   return result;
 }
+
+// Beautify button hover effect
+const buttons = document.getElementsByTagName('button');
+
+
+[...buttons].forEach(button => {
+  button.addEventListener('mouseenter', () => {
+    button.style.boxShadow = "0 12px 12px rgba(0, 0, 0, 1)";
+  })
+
+  button.addEventListener('mouseleave', () => {
+    button.style.boxShadow = "0 0 0 rgba(0, 0, 0, 0)";
+  })
+})
+
+
+
 
