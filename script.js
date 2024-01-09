@@ -63,6 +63,9 @@ let nums = [];
 let num = '';
 
 // Add the numbers to display when their buttons are clicked
+// The way this works is that for every number buttons clicked
+// Display will be updated accordingly and then the number in the button
+// Will also be added to the num variable that will be converted to a number
 [...numbers].forEach(number => {
   number.addEventListener('click', () => {
     num += number.textContent; // Also save it to num variable for calculation purposes
@@ -70,6 +73,7 @@ let num = '';
   })
 });
 
+// Add deisplay for decimals
 decimal.addEventListener('click', () => {
   num += decimal.textContent;
   display.textContent += decimal.textContent;
