@@ -90,6 +90,7 @@ body {
 .num,
 .op1,
 .op2,
+.op3,
 .decimal {
   border: 3px solid #7D0A0A;
   height: 75px;
@@ -111,7 +112,7 @@ body {
   color: #F3EDC8;
 }
 
-.op2.equals {
+.op3.equals {
   background-color: rgb(99, 185, 99);
   color: #F3EDC8;
 }

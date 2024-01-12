@@ -44,7 +44,7 @@ const buttons = document.getElementsByTagName('button');
 
 [...buttons].forEach(button => {
   button.addEventListener('mouseenter', () => {
-    button.style.boxShadow = "0 12px 12px rgba(0, 0, 0, 1)";
+    button.style.boxShadow = "0 5px 5px rgba(0, 0, 0, 0.5)";
   })
 
   button.addEventListener('mouseleave', () => {
@@ -56,32 +56,44 @@ const display = document.querySelector('.display-text');
 const numbers = document.getElementsByClassName('num');
 const decimal = document.querySelector('.decimal');
 const clear = document.querySelector('.op1.clear');
-const operations = document.querySelector('.op')
+const operations = document.getElementsByClassName('op2');
+const operationsArr = [...operations];
 
 // Store the number when its button is clicked
-let nums = [];
 let num = '';
+let operationUsed = '';
 
 // Add the numbers to display when their buttons are clicked
-// The way this works is that for every number buttons clicked
-// Display will be updated accordingly and then the number in the button
-// Will also be added to the num variable that will be converted to a number
 [...numbers].forEach(number => {
   number.addEventListener('click', () => {
     num += number.textContent; // Also save it to num variable for calculation purposes
+    console.log(num);
     display.textContent += number.textContent;
   })
 });
 
-// Add deisplay for decimals
+// Add display for decimals
 decimal.addEventListener('click', () => {
   num += decimal.textContent;
   display.textContent += decimal.textContent;
 });
 
+let operationButtonClicks = 0;
+operationsArr.forEach(operation => {
+  operation.addEventListener('click', () => {
+    operationUsed += operation.textContent;
+    if (operationUsed === '+') {
+      num = '';
+      display.textContent = '';     
+      operationButtonClicks++;
+    }
+  })
+})
+
+
+
+
 // Clear display
 clear.addEventListener('click', () => {
   display.textContent = '';
 })
-
-
