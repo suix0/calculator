@@ -68,42 +68,29 @@ let numberClickCount = 0;
 
 [...numbers].forEach(number => {
   number.addEventListener('click', () => {
-    numberClickCount++;
-    console.log(numberClickCount);
     if (operationClickCount === 0) {
       numOne += number.textContent; // Also save it to num variable for calculation purposes
-      display.textContent += number.textContent;
-    } 
-
-    if (operationClickCount === 1) {
-      numberClickCount = 0;
-      console.log(numberClickCount);
+      display.textContent += number.textContent; // Update display to the number corresponding to the button clicked
+    } else if (operationClickCount === 1) {
+      numberClickCount++;
       numTwo += number.textContent;
       display.textContent += number.textContent;
-    }
+    } 
   })
 });
 
-operationsArr.forEach(operation => {
+operationsArr.forEach(operation => {  
   operation.addEventListener('click', () => {
     operationUsed += operation.textContent;
     operationClickCount++;
-
-    if (operationUsed === '+') {
-      display.textContent = '';
+    if (operationUsed == '+') {
+      if (numberClickCount > 0) {
+        display.textContent = '';
+      }
       operationUsed = '';
     }
-    // if (operationClickCount === 2) {
-    //   console.log(operate(operationUsed, num1, num2));
-    // }
   })
 })
-
-
-
-
-
-
 
 // Add display for decimals
 decimal.addEventListener('click', () => {
