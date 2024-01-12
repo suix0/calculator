@@ -36,76 +36,90 @@ function operate(operation, ...nums) {
   return result;
 }
 
-// Beautify button hover effect
-const buttons = document.getElementsByTagName('button');
+function main() {
+  // Beautify button hover effect
+  const buttons = document.getElementsByTagName('button');
 
 
-[...buttons].forEach(button => {
-  button.addEventListener('mouseenter', () => {
-    button.style.boxShadow = "0 5px 5px rgba(0, 0, 0, 0.5)";
+  [...buttons].forEach(button => {
+    button.addEventListener('mouseenter', () => {
+      button.style.boxShadow = "0 5px 5px rgba(0, 0, 0, 0.5)";
+    })
+
+    button.addEventListener('mouseleave', () => {
+      button.style.boxShadow = "0 0 0 rgba(0, 0, 0, 0)";
+    })
   })
 
-  button.addEventListener('mouseleave', () => {
-    button.style.boxShadow = "0 0 0 rgba(0, 0, 0, 0)";
-  })
-})
+  const display = document.querySelector('.display-text');
+  const numbers = document.getElementsByClassName('num');
+  const decimal = document.querySelector('.decimal');
+  const clear = document.querySelector('.op1.clear');
+  const operations = document.getElementsByClassName('op2');
+  const operationsArr = [...operations];
 
-const display = document.querySelector('.display-text');
-const numbers = document.getElementsByClassName('num');
-const decimal = document.querySelector('.decimal');
-const clear = document.querySelector('.op1.clear');
-const operations = document.getElementsByClassName('op2');
-const operationsArr = [...operations];
+  // Store the number when its button is clicked
+  let numOne = '';
+  let numTwo = '';
+  let operationUsed = '';
 
-// Store the number when its button is clicked
-let numOne = '';
-let numTwo = '';
-let operationUsed = '';
+  // Add the numbers to display when their buttons are clicked
+  let operationClickCount = 0;
+  let numberClickCount = 0;
+  
+  [...numbers].forEach(number => {
+    number.addEventListener('click', () => {
 
-// Add the numbers to display when their buttons are clicked
-let operationClickCount = 0;
-let numberClickCount = 0;
-
-[...numbers].forEach(number => {
-  number.addEventListener('click', () => {
-    if (operationClickCount === 0) {
-      numOne += number.textContent; // Also save it to num variable for calculation purposes
-      display.textContent += number.textContent; // Update display to the number corresponding to the button clicked
-    } else if (operationClickCount === 1) {
-      numberClickCount++;
-      numTwo += number.textContent;
-      display.textContent += number.textContent;
-    } 
-  })
-});
-
-operationsArr.forEach(operation => {  
-  operation.addEventListener('click', () => {
-    operationUsed += operation.textContent;
-    operationClickCount++;
-    if (operationUsed == '+') {
-      if (numberClickCount > 0) {
-        display.textContent = '';
+      if (operationClickCount === 2) {
+        numOne = '';
+        numTwo = '';
+        numberClickCount = 0;
+        operationClickCount = 0;
       }
-      operationUsed = '';
-    }
+
+      if (operationClickCount === 0) {
+        numOne += number.textContent; // Also save it to num variable for calculation purposes
+        display.textContent += number.textContent; // Update display to the number corresponding to the button clicked
+      } else if (operationClickCount === 1) {
+        numberClickCount++;
+        if (numberClickCount === 1) {
+          display.textContent = '';
+        }
+        numTwo += number.textContent;
+        display.textContent += number.textContent;
+      } 
+    })
+  });
+
+  operationsArr.forEach(operation => {  
+    operation.addEventListener('click', () => {
+      operationUsed += operation.textContent;
+      operationClickCount++;
+      // if (operationUsed == '+') {
+        
+      // }
+    })
   })
-})
 
-// Add display for decimals
-decimal.addEventListener('click', () => {
-  if (operationClickCount === 0) {
-    numOne += decimal.textContent;
-    display.textContent += decimal.textContent;
-  } else {
-    numTwo += decimal.textContent;
-    display.textContent += decimal.textContent;
-  }
-});
 
-// Clear display
-clear.addEventListener('click', () => {
-  display.textContent = '';
-  numOne = '';
-  numTwo = '';
-})
+
+  // Add display for decimals
+  decimal.addEventListener('click', () => {
+    if (operationClickCount === 0) {
+      numOne += decimal.textContent;
+      display.textContent += decimal.textContent;
+    } else {
+      numTwo += decimal.textContent;
+      display.textContent += decimal.textContent;
+    }
+  });
+
+  // Clear display
+  clear.addEventListener('click', () => {
+    display.textContent = '';
+    numOne = '';
+    numTwo = '';
+  })
+}
+
+main()
