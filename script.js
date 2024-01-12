@@ -20,7 +20,7 @@ function power(num, exponent) {
 }
 
 // Create a function to do some operations
-function operate(operation, exponent, ...nums) {
+function operate(operation, ...nums) {
   let result = 0;
 
   if (operation === '+') {
@@ -31,9 +31,7 @@ function operate(operation, exponent, ...nums) {
     result = multiply(...nums);
   } else if (operation === '÷') {
     result = division(...nums);
-  } else if (operation === '^') {
-    result = power(...nums, exponent)
-  }
+  } 
 
   return result;
 }
@@ -60,40 +58,67 @@ const operations = document.getElementsByClassName('op2');
 const operationsArr = [...operations];
 
 // Store the number when its button is clicked
-let num = '';
+let numOne = '';
+let numTwo = '';
 let operationUsed = '';
 
 // Add the numbers to display when their buttons are clicked
+let operationClickCount = 0;
+let numberClickCount = 0;
+
 [...numbers].forEach(number => {
   number.addEventListener('click', () => {
-    num += number.textContent; // Also save it to num variable for calculation purposes
-    console.log(num);
-    display.textContent += number.textContent;
+    numberClickCount++;
+    console.log(numberClickCount);
+    if (operationClickCount === 0) {
+      numOne += number.textContent; // Also save it to num variable for calculation purposes
+      display.textContent += number.textContent;
+    } 
+
+    if (operationClickCount === 1) {
+      numberClickCount = 0;
+      console.log(numberClickCount);
+      numTwo += number.textContent;
+      display.textContent += number.textContent;
+    }
   })
 });
 
-// Add display for decimals
-decimal.addEventListener('click', () => {
-  num += decimal.textContent;
-  display.textContent += decimal.textContent;
-});
-
-let operationButtonClicks = 0;
 operationsArr.forEach(operation => {
   operation.addEventListener('click', () => {
     operationUsed += operation.textContent;
+    operationClickCount++;
+
     if (operationUsed === '+') {
-      num = '';
-      display.textContent = '';     
-      operationButtonClicks++;
+      display.textContent = '';
+      operationUsed = '';
     }
+    // if (operationClickCount === 2) {
+    //   console.log(operate(operationUsed, num1, num2));
+    // }
   })
 })
 
 
 
 
+
+
+
+// Add display for decimals
+decimal.addEventListener('click', () => {
+  if (operationClickCount === 0) {
+    numOne += decimal.textContent;
+    display.textContent += decimal.textContent;
+  } else {
+    numTwo += decimal.textContent;
+    display.textContent += decimal.textContent;
+  }
+});
+
 // Clear display
 clear.addEventListener('click', () => {
   display.textContent = '';
+  numOne = '';
+  numTwo = '';
 })
