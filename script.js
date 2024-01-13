@@ -58,50 +58,57 @@ function main() {
   const operations = document.getElementsByClassName('op2');
   const operationsArr = [...operations];
 
-  // Store the number when its button is clicked
-  let numOne = '';
-  let numTwo = '';
-  let operationUsed = '';
-
   // Add the numbers to display when their buttons are clicked
   let operationClickCount = 0;
   let numberClickCount = 0;
+  let numOne = '';
+  let numTwo = '';
+  let operationUsed = '';
+ 
   
   [...numbers].forEach(number => {
     number.addEventListener('click', () => {
-
-      if (operationClickCount === 2) {
-        numOne = '';
-        numTwo = '';
-        numberClickCount = 0;
-        operationClickCount = 0;
-      }
+      let operationToUse = operationUsed;
+      let num1 = Number(numOne);
+      let num2 = Number(numTwo);
 
       if (operationClickCount === 0) {
+        console.log(operationClickCount);
         numOne += number.textContent; // Also save it to num variable for calculation purposes
         display.textContent += number.textContent; // Update display to the number corresponding to the button clicked
       } else if (operationClickCount === 1) {
-        numberClickCount++;
-        if (numberClickCount === 1) {
-          display.textContent = '';
-        }
-        numTwo += number.textContent;
-        display.textContent += number.textContent;
-      } 
+          console.log(operationClickCount);
+          numberClickCount++;
+          if (numberClickCount === 1) {
+            display.textContent = '';
+          }
+          numTwo += number.textContent;
+          display.textContent += number.textContent;
+
+      } else if (operationClickCount === 2) {
+          console.log(operationClickCount);
+          display.textContent = String(operate(operationToUse, num1, num2));
+          // if (numberClickCount > 0) {
+          //   numberClickCount = 0;
+          //   if (numberClickCount === 0) {
+          //     numberClickCount++;
+          //     if (numberClickCount === 1) {
+          //       display.textContent = '';
+          //       numberClickCount = 0;
+          //     }
+          //   }
+          // }
+      }
     })
   });
 
   operationsArr.forEach(operation => {  
     operation.addEventListener('click', () => {
-      operationUsed += operation.textContent;
       operationClickCount++;
-      // if (operationUsed == '+') {
-        
-      // }
+      operationUsed = '';
+      operationUsed += operation.textContent;
     })
   })
-
-
 
   // Add display for decimals
   decimal.addEventListener('click', () => {
