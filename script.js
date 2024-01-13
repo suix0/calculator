@@ -82,6 +82,8 @@ function main() {
     display.textContent = '';
     numOne = '';
     numTwo = '';
+    operationClickCount = 0;
+    numberClickCount = 0;
   })
   
   operationsArr.forEach(operation => {  
