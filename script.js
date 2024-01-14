@@ -91,11 +91,20 @@ function main() {
       let operationToUse = operationUsed;
       let num1 = Number(numOne);
       let num2 = Number(numTwo);
+      let result = 0;
+      let updatedResult = 0;
       operationClickCount++;
       operationUsed = '';
       operationUsed += operation.textContent;
+      alert(operationUsed);
+
       if (operationClickCount === 2) {
-        display.textContent = String(operate(operationToUse, num1, num2));
+        result = operate(operationToUse, num1, num2);
+        display.textContent = String(result);
+        numTwo = '';
+      } else if (operationClickCount > 2) {
+        updatedResult = operate(operationToUse, result, num2);
+        display.textContent = String(updatedResult);
       }
     })
   })
@@ -112,9 +121,24 @@ function main() {
           }
           numTwo += number.textContent;
           display.textContent += number.textContent;
-      } 
+      } else if (operationClickCount > 2) {
+          numTwo += number.textContent;
+      }
     })
   });
 }
 
 main()
+
+/* Made the calculator work and it displays the result after the 
+second time an operation button is clicked. 
+
+To future self, make sure that after a result is displayed. 
+For example:
+I click 12, then click +, then click 15, 
+and then click another operation like 6, then it should disply result to 27 (12 + 15), 
+then the 27 should be waiting for another number entered and it should minus 27 to next number entered
+because i clicked minus - previously.
+
+We can do this bro!!!
+*/
