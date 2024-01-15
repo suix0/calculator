@@ -59,13 +59,6 @@ function main() {
   const operationsArr = [...operations];
   const numbersArr = [...numbers];
 
-  // Add the numbers to display when their buttons are clicked
-  let operationClickCount = 0;
-  let numberClickCount = 0;
-  let numOne = '';
-  let numTwo = '';
-  let operationUsed = '';
-
   // Add display for decimals
   decimal.addEventListener('click', () => {
     if (operationClickCount === 0) {
@@ -85,32 +78,48 @@ function main() {
     operationClickCount = 0;
     numberClickCount = 0;
   })
+
+  // Add the numbers to display when their buttons are clicked
+  let operationClickCount = 0;
+  let numberClickCount = 0;
+  let numOne = '';
+  let numTwo = '';
+  let numThree = '';
+  let operationUsed = '';
+  let bucket = 0;
   
   operationsArr.forEach(operation => {  
     operation.addEventListener('click', () => {
       let operationToUse = operationUsed;
       let num1 = Number(numOne);
       let num2 = Number(numTwo);
+      let num3 = Number(numThree);
       let result = 0;
       let updatedResult = 0;
+      let storeResult = 0;
+      let nextOperation = '';
       operationClickCount++;
       operationUsed = '';
       operationUsed += operation.textContent;
-      alert(operationUsed);
 
       if (operationClickCount === 2) {
         result = operate(operationToUse, num1, num2);
         display.textContent = String(result);
-        numTwo = '';
-      } else if (operationClickCount > 2) {
-        updatedResult = operate(operationToUse, result, num2);
+        bucket = operationClickCount;
+        bucket++;
+      } else if (operationClickCount >= 3) {
+        nextOperation = operation.textContent;
+        console.log(nextOperation);
+        updatedResult = operate(nextOperation, result, num3);
+        console.log(updatedResult);
         display.textContent = String(updatedResult);
-      }
+      } 
     })
   })
   
   numbersArr.forEach(number => {
     number.addEventListener('click', () => {
+
       if (operationClickCount === 0) {
         numOne += number.textContent; // Also save it to num variable for calculation purposes
         display.textContent += number.textContent; // Update display to the number corresponding to the button clicked
@@ -121,9 +130,19 @@ function main() {
           }
           numTwo += number.textContent;
           display.textContent += number.textContent;
-      } else if (operationClickCount > 2) {
-          numTwo += number.textContent;
+      } else if (bucket === 3) {
+          display.textContent = '';
+          bucket++;
+      }   
+      
+      if (bucket >= 4) {
+        numThree += number.textContent;
+        display.textContent += number.textContent;
       }
+
+      if (operationClickCount >= 3) {
+
+      } 
     })
   });
 }
@@ -136,7 +155,7 @@ second time an operation button is clicked.
 To future self, make sure that after a result is displayed. 
 For example:
 I click 12, then click +, then click 15, 
-and then click another operation like 6, then it should disply result to 27 (12 + 15), 
+and then click another operation like -, then it should disply result to 27 (12 + 15), 
 then the 27 should be waiting for another number entered and it should minus 27 to next number entered
 because i clicked minus - previously.
 
