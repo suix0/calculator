@@ -1,18 +1,18 @@
 // Create functions for each operations
 function add(...nums) {
-  return nums.reduce((sum, num) => sum + num)
+  return nums.reduce((sum, num) => Number(sum) + Number(num))
 }
 
 function subtract(...nums) {
-  return nums.reduce((minusResult, num) => minusResult - num);
+  return nums.reduce((minusResult, num) => Number(minusResult) - Number(num));
 }
 
 function multiply(...nums) {
-  return nums.reduce((product, num) => product * num);
+  return nums.reduce((product, num) => Number(product) * Number(num));
 }
 
 function division(...nums) {
-  return nums.reduce((divisionResult, num) => divisionResult / num);
+  return nums.reduce((divisionResult, num) => Number(divisionResult) / Number(num));
 }
 
 function power(num, exponent) {
@@ -35,6 +35,7 @@ function operate(operation, ...nums) {
 
   return result;
 }
+
 
 function main() {
   // Beautify button hover effect
@@ -77,6 +78,7 @@ function main() {
     numTwo = '';
     operationClickCount = 0;
     numberClickCount = 0;
+    bucket = 0;
   })
 
   // Add the numbers to display when their buttons are clicked
@@ -87,33 +89,40 @@ function main() {
   let numThree = '';
   let operationUsed = '';
   let bucket = 0;
-  
+  let result = 0;
+  let updatedResult = [];
+  let bucketOperation = '';
   operationsArr.forEach(operation => {  
     operation.addEventListener('click', () => {
       let operationToUse = operationUsed;
       let num1 = Number(numOne);
       let num2 = Number(numTwo);
-      let num3 = Number(numThree);
-      let result = 0;
-      let updatedResult = 0;
-      let storeResult = 0;
-      let nextOperation = '';
       operationClickCount++;
       operationUsed = '';
       operationUsed += operation.textContent;
-
+      
       if (operationClickCount === 2) {
         result = operate(operationToUse, num1, num2);
         display.textContent = String(result);
         bucket = operationClickCount;
+        bucketOperation = operation.textContent;
         bucket++;
-      } else if (operationClickCount >= 3) {
-        nextOperation = operation.textContent;
-        console.log(nextOperation);
-        updatedResult = operate(nextOperation, result, num3);
-        console.log(updatedResult);
-        display.textContent = String(updatedResult);
+      } else if (operationClickCount === 3) {
+        updatedResult.push(operate(bucketOperation, result, Number(numThree)));
+        display.textContent = updatedResult;
+        bucketOperation = '';
+        bucketOperation = operation.textContent;
+        console.log(bucketOperation);
+        numThree = ''
       } 
+      else if (operationClickCount > 3) {
+        updatedResult.push((operate(bucketOperation, updatedResult, Number(numThree))));
+        display.textContent = updatedResult;
+        bucketOperation = '';
+        bucketOperation = operation.textContent;
+        console.log(bucketOperation);
+        numThree = ''
+      }
     })
   })
   
@@ -133,31 +142,13 @@ function main() {
       } else if (bucket === 3) {
           display.textContent = '';
           bucket++;
-      }   
-      
+      }
       if (bucket >= 4) {
         numThree += number.textContent;
         display.textContent += number.textContent;
       }
-
-      if (operationClickCount >= 3) {
-
-      } 
     })
   });
 }
 
 main()
-
-/* Made the calculator work and it displays the result after the 
-second time an operation button is clicked. 
-
-To future self, make sure that after a result is displayed. 
-For example:
-I click 12, then click +, then click 15, 
-and then click another operation like -, then it should disply result to 27 (12 + 15), 
-then the 27 should be waiting for another number entered and it should minus 27 to next number entered
-because i clicked minus - previously.
-
-We can do this bro!!!
-*/
