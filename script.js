@@ -60,6 +60,7 @@ function main() {
   const clear = document.querySelector('.op1.clear');
   const operations = document.getElementsByClassName('op2');
   const equals = document.querySelector('.op3.equals');
+  const plusMinus = document.querySelector('.op4.changeNum');
   const operationsArr = [...operations];
   const numbersArr = [...numbers];
 
@@ -113,10 +114,10 @@ function main() {
       operationClickCount++;
       operationUsed = '';
       operationUsed += operation.textContent;
+
       if (operationClickCount === 2) {
         if (operationToUse === '^') {
           result = operate(operationToUse, num2, num1);
-          console.log(result);
         } else {
           result = operate(operationToUse, undefined, num1, num2);
         }
@@ -161,9 +162,9 @@ function main() {
     })
   })
   
+  let clicked = false;
   numbersArr.forEach(number => {
     number.addEventListener('click', () => {
-
       if (operationClickCount === 0) {
         numOne += number.textContent; // Also save it to num variable for calculation purposes
         display.textContent += number.textContent; // Update display to the number corresponding to the button clicked
@@ -174,6 +175,15 @@ function main() {
           }
           numTwo += number.textContent;
           display.textContent += number.textContent;
+
+          plusMinus.addEventListener('click', () => {
+            clicked = true;
+            if (clicked) {
+              display.textContent = '-' + display.textContent;
+            }
+          })
+          // Man, it's up to you to fix this display where when you click the +/- it will show up negative sign before numbers!!
+          
       } else if (bucket === 3) {
           display.textContent = '';
           bucket++;
