@@ -15,12 +15,12 @@ function division(...nums) {
   return nums.reduce((divisionResult, num) => Number(divisionResult) / Number(num));
 }
 
-function power(num, exponent) {
+function power(exponent, num) {
   return Math.pow(num, exponent);
 }
 
 // Create a function to do some operations
-function operate(operation, ...nums) {
+function operate(operation, expo, ...nums) {
   let result = 0;
 
   if (operation === '+') {
@@ -31,7 +31,9 @@ function operate(operation, ...nums) {
     result = multiply(...nums);
   } else if (operation === '÷') {
     result = division(...nums);
-  } 
+  } else if (operation === '^') {
+    result = power(expo, ...nums)
+  }
 
   return result;
 }
@@ -57,6 +59,7 @@ function main() {
   const decimal = document.querySelector('.decimal');
   const clear = document.querySelector('.op1.clear');
   const operations = document.getElementsByClassName('op2');
+  const equals = document.querySelector('.op3.equals');
   const operationsArr = [...operations];
   const numbersArr = [...numbers];
 
@@ -70,15 +73,22 @@ function main() {
       display.textContent += decimal.textContent;
     }
   });
-
+  
   // Clear display
   clear.addEventListener('click', () => {
     display.textContent = '';
     numOne = '';
     numTwo = '';
+    numThree = '';
     operationClickCount = 0;
     numberClickCount = 0;
     bucket = 0;
+    updatedResultArr = [];
+    currentResult = 0;
+    updatedResultIndex = 1;
+    result = 0;
+    operationUsed = '';
+    bucketOperation = '';
   })
 
   // Add the numbers to display when their buttons are clicked
@@ -90,8 +100,11 @@ function main() {
   let operationUsed = '';
   let bucket = 0;
   let result = 0;
-  let updatedResult = [];
+  let updatedResultArr = [];
+  let currentResult = 0;
   let bucketOperation = '';
+  let updatedResultIndex = 1;
+
   operationsArr.forEach(operation => {  
     operation.addEventListener('click', () => {
       let operationToUse = operationUsed;
@@ -100,28 +113,50 @@ function main() {
       operationClickCount++;
       operationUsed = '';
       operationUsed += operation.textContent;
-      
       if (operationClickCount === 2) {
-        result = operate(operationToUse, num1, num2);
+        if (operationToUse === '^') {
+          result = operate(operationToUse, num2, num1);
+          console.log(result);
+        } else {
+          result = operate(operationToUse, undefined, num1, num2);
+        }
+        updatedResultArr.push(result);
         display.textContent = String(result);
         bucket = operationClickCount;
         bucketOperation = operation.textContent;
         bucket++;
       } else if (operationClickCount === 3) {
-        updatedResult.push(operate(bucketOperation, result, Number(numThree)));
-        display.textContent = updatedResult;
-        bucketOperation = '';
-        bucketOperation = operation.textContent;
-        console.log(bucketOperation);
-        numThree = ''
-      } 
-      else if (operationClickCount > 3) {
-        updatedResult.push((operate(bucketOperation, updatedResult, Number(numThree))));
-        display.textContent = updatedResult;
-        bucketOperation = '';
-        bucketOperation = operation.textContent;
-        console.log(bucketOperation);
-        numThree = ''
+          console.log(bucketOperation);
+          if (bucketOperation === '^') {
+            currentResult = operate(bucketOperation, Number(numThree), result);
+          } else {
+            currentResult = operate(bucketOperation, undefined ,result, Number(numThree));
+          }
+          updatedResultArr.push(currentResult);
+          display.textContent = String(updatedResultArr[updatedResultIndex]);
+          bucketOperation = '';
+          bucketOperation = operation.textContent;
+          numThree = '';
+          bucket = 3;
+          currentResult = 0;
+          currentResult = updatedResultArr[updatedResultIndex];
+      } else if (operationClickCount > 3) {
+          currentResult = 0;
+          currentResult = updatedResultArr[updatedResultIndex];
+          if (bucketOperation === '^') {
+            updatedResultArr.push(operate(bucketOperation, Number(numThree), currentResult));
+          } else {
+            updatedResultArr.push(operate(bucketOperation, undefined, currentResult, Number(numThree)));
+          }
+          updatedResultIndex++;
+          currentResult = updatedResultArr[updatedResultIndex];
+          console.log(currentResult);
+          display.textContent = String(currentResult);
+          bucketOperation = '';
+          bucketOperation = operation.textContent;
+          numThree = '';
+          bucket = 3;
+          currentResult = 0;
       }
     })
   })
