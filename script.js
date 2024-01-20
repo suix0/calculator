@@ -90,6 +90,7 @@ function main() {
     result = 0;
     operationUsed = '';
     bucketOperation = '';
+    plusMinusCountClick = 0;
   })
 
   // Add the numbers to display when their buttons are clicked
@@ -127,7 +128,6 @@ function main() {
         bucketOperation = operation.textContent;
         bucket++;
       } else if (operationClickCount === 3) {
-          console.log(bucketOperation);
           if (bucketOperation === '^') {
             currentResult = operate(bucketOperation, Number(numThree), result);
           } else {
@@ -162,7 +162,6 @@ function main() {
     })
   })
   
-  let clicked = false;
   numbersArr.forEach(number => {
     number.addEventListener('click', () => {
       if (operationClickCount === 0) {
@@ -175,15 +174,6 @@ function main() {
           }
           numTwo += number.textContent;
           display.textContent += number.textContent;
-
-          plusMinus.addEventListener('click', () => {
-            clicked = true;
-            if (clicked) {
-              display.textContent = '-' + display.textContent;
-            }
-          })
-          // Man, it's up to you to fix this display where when you click the +/- it will show up negative sign before numbers!!
-          
       } else if (bucket === 3) {
           display.textContent = '';
           bucket++;
@@ -194,6 +184,37 @@ function main() {
       }
     })
   });
+
+  let plusMinusCountClick = 0;
+  plusMinus.addEventListener('click', () => {
+    plusMinusCountClick++;
+    if (operationClickCount === 0 && plusMinusCountClick === 1) {
+      numOne = '-' + numOne;
+      display.textContent = '-' + display.textContent;
+    } else if (operationClickCount === 0 && plusMinusCountClick > 1) {
+      numOne = numOne.slice(1, numOne.length + 1);
+      display.textContent = numOne;
+      plusMinusCountClick = 0;
+
+    } else if (operationClickCount === 1 && plusMinusCountClick === 1) {
+      numTwo = '-' + numTwo;
+      display.textContent = '-' + display.textContent;
+    } else if (operationClickCount === 1 && plusMinusCountClick > 1) {
+      numTwo = numTwo.slice(1, numTwo.length + 1);
+      display.textContent = numTwo;
+      plusMinusCountClick = 0;
+      console.log(bucket);
+
+    } else if (bucket >= 4 && plusMinusCountClick > 1) {
+      console.log(bucket);
+      numThree = '-' + numThree;
+      display.textContent = '-' + display.textContent;
+    } else if (bucket >= 4 && plusMinusCountClick === 1) {
+      numThree = numThree.slice(1, numThree.length + 1);
+      display.textContent = numThree;
+      plusMinusCountClick = 0;
+    }
+  })
 }
 
 main()
