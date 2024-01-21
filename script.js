@@ -115,7 +115,6 @@ function main() {
       operationClickCount++;
       operationUsed = '';
       operationUsed += operation.textContent;
-
       if (operationClickCount === 2) {
         if (operationToUse === '^') {
           result = operate(operationToUse, num2, num1);
@@ -128,6 +127,7 @@ function main() {
         bucketOperation = operation.textContent;
         bucket++;
       } else if (operationClickCount === 3) {
+        plusMinusCountClick3 = 0;
           if (bucketOperation === '^') {
             currentResult = operate(bucketOperation, Number(numThree), result);
           } else {
@@ -142,6 +142,7 @@ function main() {
           currentResult = 0;
           currentResult = updatedResultArr[updatedResultIndex];
       } else if (operationClickCount > 3) {
+        plusMinusCountClick3 = 0;
           currentResult = 0;
           currentResult = updatedResultArr[updatedResultIndex];
           if (bucketOperation === '^') {
@@ -151,7 +152,6 @@ function main() {
           }
           updatedResultIndex++;
           currentResult = updatedResultArr[updatedResultIndex];
-          console.log(currentResult);
           display.textContent = String(currentResult);
           bucketOperation = '';
           bucketOperation = operation.textContent;
@@ -161,60 +161,75 @@ function main() {
       }
     })
   })
+
+  let equalsTotal = 0;
+  equals.addEventListener('click', () => {
+    equalsTotal = updatedResultArr.reduce((total, nums) => {
+      console.log(`${total} ${nums}`)
+      total + nums
+    }, 0)
+    console.log(equalsTotal);
+  })
   
+  let plusMinusCountClick = 0;
+  let plusMinusCountClick2 = 0;
+  let plusMinusCountClick3 = 0;
   numbersArr.forEach(number => {
     number.addEventListener('click', () => {
       if (operationClickCount === 0) {
-        numOne += number.textContent; // Also save it to num variable for calculation purposes
-        display.textContent += number.textContent; // Update display to the number corresponding to the button clicked
+        if (number.textContent === '+/-' && plusMinusCountClick === 0) {
+          numOne = '-' + numOne;
+          display.textContent = numOne;
+          plusMinusCountClick = 1;
+        } else if (number.textContent === '+/-' && plusMinusCountClick === 1) {
+          numOne = numOne.slice(1, numOne.length + 1);
+          display.textContent = numOne;
+          plusMinusCountClick = 0;
+        } else if (number.textContent != '+/-') {
+          numOne += number.textContent; // Also save it to num variable for calculation purposes
+          display.textContent = numOne; // Update display to the number corresponding to the button clicked
+        }
+
       } else if (operationClickCount === 1) {
           numberClickCount++;
           if (numberClickCount === 1) {
             display.textContent = '';
           }
-          numTwo += number.textContent;
-          display.textContent += number.textContent;
+          if (number.textContent === '+/-' && plusMinusCountClick2 === 0) {
+            numTwo = '-' + numTwo;
+            display.textContent = numTwo;
+            plusMinusCountClick2 = 1;
+          } else if (number.textContent === '+/-' && plusMinusCountClick2 === 1) {
+            numTwo = numTwo.slice(1, numTwo.length + 1);
+            display.textContent = numTwo;
+            plusMinusCountClick2 = 0;
+          } else if (number.textContent != '+/-') {
+            numTwo += number.textContent; 
+            display.textContent = numTwo; 
+          }
       } else if (bucket === 3) {
           display.textContent = '';
           bucket++;
       }
       if (bucket >= 4) {
-        numThree += number.textContent;
-        display.textContent += number.textContent;
+        if (number.textContent === '+/-' && plusMinusCountClick3 === 0) {
+          console.log('clicked!')
+          numThree = '-' + numThree;
+          display.textContent = numThree;
+          plusMinusCountClick3 = 1;
+        } else if (number.textContent === '+/-' && plusMinusCountClick3 === 1) {
+          console.log('clicked! lol')
+          numThree = numThree.slice(1, numThree.length + 1);
+          display.textContent = numThree;
+          plusMinusCountClick3 = 0;
+        } else if (number.textContent != '+/-') {
+          numThree += number.textContent; 
+          display.textContent = numThree; 
+        }
       }
     })
   });
 
-  let plusMinusCountClick = 0;
-  plusMinus.addEventListener('click', () => {
-    plusMinusCountClick++;
-    if (operationClickCount === 0 && plusMinusCountClick === 1) {
-      numOne = '-' + numOne;
-      display.textContent = '-' + display.textContent;
-    } else if (operationClickCount === 0 && plusMinusCountClick > 1) {
-      numOne = numOne.slice(1, numOne.length + 1);
-      display.textContent = numOne;
-      plusMinusCountClick = 0;
-
-    } else if (operationClickCount === 1 && plusMinusCountClick === 1) {
-      numTwo = '-' + numTwo;
-      display.textContent = '-' + display.textContent;
-    } else if (operationClickCount === 1 && plusMinusCountClick > 1) {
-      numTwo = numTwo.slice(1, numTwo.length + 1);
-      display.textContent = numTwo;
-      plusMinusCountClick = 0;
-      console.log(bucket);
-
-    } else if (bucket >= 4 && plusMinusCountClick > 1) {
-      console.log(bucket);
-      numThree = '-' + numThree;
-      display.textContent = '-' + display.textContent;
-    } else if (bucket >= 4 && plusMinusCountClick === 1) {
-      numThree = numThree.slice(1, numThree.length + 1);
-      display.textContent = numThree;
-      plusMinusCountClick = 0;
-    }
-  })
 }
 
 main()
