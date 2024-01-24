@@ -93,6 +93,7 @@ function main() {
     plusMinusCountClick = 0;
     plusMinusCountClick2 = 0;
     plusMinusCountClick3 = 0;
+    equalsTotal = 0;
   })
 
   // Add the numbers to display when their buttons are clicked
@@ -124,7 +125,6 @@ function main() {
           result = operate(operationToUse, undefined, num1, num2);
         }
         updatedResultArr.push(result);
-        console.log(updatedResultArr);
         display.textContent = String(result);
         bucket = operationClickCount;
         bucketOperation = operation.textContent;
@@ -137,7 +137,6 @@ function main() {
             currentResult = operate(bucketOperation, undefined ,updatedResultArr[updatedResultArr.length - 1], Number(numThree));
           }
           updatedResultArr.push(currentResult);
-          console.log(updatedResultArr);
           display.textContent = String(updatedResultArr[updatedResultArr.length - 1]);
           bucketOperation = '';
           bucketOperation = operation.textContent;
@@ -154,7 +153,6 @@ function main() {
           } else {
             updatedResultArr.push(operate(bucketOperation, undefined, currentResult, Number(numThree)));
           }
-          console.log(updatedResultArr);
           updatedResultIndex++;
           currentResult = updatedResultArr[updatedResultIndex];
           display.textContent = String(currentResult);
@@ -172,25 +170,21 @@ function main() {
     if (operationClickCount === 1 && updatedResultArr.length === 0) {
       if (operationUsed === '^') {
         equalsTotal = operate(operationUsed, Number(numTwo), Number(numOne));
-        console.log(equalsTotal);
         display.textContent = equalsTotal
       } else {
           equalsTotal = operate(operationUsed, undefined, Number(numOne), Number(numTwo));
           display.textContent = equalsTotal;
-          console.log(equalsTotal);
       }
     } else if ((operationClickCount === 2 || operationClickCount === 3) && updatedResultArr.length != 0) {
         equalsTotal = updatedResultArr[updatedResultArr.length - 1];
         if (operationUsed === '^') {
           equalsTotal = operate(operationUsed, Number(numThree), equalsTotal);
-          console.log(equalsTotal);
           updatedResultArr.push(equalsTotal);
           display.textContent = equalsTotal
         } else {
           equalsTotal = operate(operationUsed, undefined, equalsTotal, Number(numThree));
           updatedResultArr.push(equalsTotal);
           display.textContent = equalsTotal
-          console.log(equalsTotal);
         }
         updatedResultIndex++;
         numThree = 0;
@@ -198,14 +192,12 @@ function main() {
       equalsTotal = updatedResultArr[updatedResultArr.length - 1];
         if (operationUsed === '^') {
           equalsTotal = operate(operationUsed, Number(numThree), equalsTotal);
-          console.log(equalsTotal);
           updatedResultArr.push(equalsTotal);
           display.textContent = equalsTotal
         } else {
           equalsTotal = operate(operationUsed, undefined, equalsTotal, Number(numThree));
           updatedResultArr.push(equalsTotal);
           display.textContent = equalsTotal
-          console.log(equalsTotal);
         }
         updatedResultIndex++;
         numThree = 0;
