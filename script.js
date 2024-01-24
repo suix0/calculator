@@ -69,8 +69,11 @@ function main() {
     if (operationClickCount === 0) {
       numOne += decimal.textContent;
       display.textContent += decimal.textContent;
-    } else {
+    } else if (operationClickCount === 1) {
       numTwo += decimal.textContent;
+      display.textContent += decimal.textContent;
+    } else {
+      numThree += decimal.textContent;
       display.textContent += decimal.textContent;
     }
   });
@@ -108,8 +111,7 @@ function main() {
   let updatedResultArr = [];
   let currentResult = 0;
   let bucketOperation = '';
-  let updatedResultIndex = 1;
-
+  let updatedResultIndex = 1; 
   operationsArr.forEach(operation => {  
     operation.addEventListener('click', () => {
       let operationToUse = operationUsed;
@@ -119,16 +121,23 @@ function main() {
       operationUsed = '';
       operationUsed += operation.textContent;
       if (operationClickCount === 2) {
-        if (operationToUse === '^') {
+        if (num2 === 0 && operationToUse === '÷') {
+          display.textContent = "Error. Can't divide with zero. Press AC to fix.";
+        } else if (operationToUse === '^') {
           result = operate(operationToUse, num2, num1);
+          updatedResultArr.push(result);
+          display.textContent = String(result);
+          bucket = operationClickCount;
+          bucketOperation = operation.textContent;
+          bucket++;
         } else {
           result = operate(operationToUse, undefined, num1, num2);
+          updatedResultArr.push(result);
+          display.textContent = String(result);
+          bucket = operationClickCount;
+          bucketOperation = operation.textContent;
+          bucket++;
         }
-        updatedResultArr.push(result);
-        display.textContent = String(result);
-        bucket = operationClickCount;
-        bucketOperation = operation.textContent;
-        bucket++;
       } else if (operationClickCount === 3) {
         plusMinusCountClick3 = 0;
           if (bucketOperation === '^') {
@@ -168,7 +177,9 @@ function main() {
   let equalsTotal = 0;
   equals.addEventListener('click', () => {
     if (operationClickCount === 1 && updatedResultArr.length === 0) {
-      if (operationUsed === '^') {
+      if (Number(numTwo) === 0 && operationUsed === '÷') {
+        console.log("Error. Can't divide with zero. Press AC to fix.");
+      } else if (operationUsed === '^') {
         equalsTotal = operate(operationUsed, Number(numTwo), Number(numOne));
         display.textContent = equalsTotal
       } else {

@@ -52,16 +52,17 @@ body {
 .display {
   display: flex;
   align-self: center;
-  margin-top: 10px;
+  margin-top: auto;
   border: 3px solid #7D0A0A;
   width: 95%;
-  height: 20%;
+  min-height: 140px;
   border-radius: 15px;
   overflow: hidden;
 }
 
 .display-text {
   margin: auto 0 0 0;
+  min-height: 130px;
   display: flex;
   align-self: center;
   margin-left: auto;
