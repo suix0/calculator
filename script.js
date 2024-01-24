@@ -91,6 +91,8 @@ function main() {
     operationUsed = '';
     bucketOperation = '';
     plusMinusCountClick = 0;
+    plusMinusCountClick2 = 0;
+    plusMinusCountClick3 = 0;
   })
 
   // Add the numbers to display when their buttons are clicked
@@ -122,6 +124,7 @@ function main() {
           result = operate(operationToUse, undefined, num1, num2);
         }
         updatedResultArr.push(result);
+        console.log(updatedResultArr);
         display.textContent = String(result);
         bucket = operationClickCount;
         bucketOperation = operation.textContent;
@@ -129,12 +132,13 @@ function main() {
       } else if (operationClickCount === 3) {
         plusMinusCountClick3 = 0;
           if (bucketOperation === '^') {
-            currentResult = operate(bucketOperation, Number(numThree), result);
+            currentResult = operate(bucketOperation, Number(numThree), updatedResultArr[updatedResultArr.length - 1]);
           } else {
-            currentResult = operate(bucketOperation, undefined ,result, Number(numThree));
+            currentResult = operate(bucketOperation, undefined ,updatedResultArr[updatedResultArr.length - 1], Number(numThree));
           }
           updatedResultArr.push(currentResult);
-          display.textContent = String(updatedResultArr[updatedResultIndex]);
+          console.log(updatedResultArr);
+          display.textContent = String(updatedResultArr[updatedResultArr.length - 1]);
           bucketOperation = '';
           bucketOperation = operation.textContent;
           numThree = '';
@@ -150,6 +154,7 @@ function main() {
           } else {
             updatedResultArr.push(operate(bucketOperation, undefined, currentResult, Number(numThree)));
           }
+          console.log(updatedResultArr);
           updatedResultIndex++;
           currentResult = updatedResultArr[updatedResultIndex];
           display.textContent = String(currentResult);
@@ -164,11 +169,47 @@ function main() {
 
   let equalsTotal = 0;
   equals.addEventListener('click', () => {
-    equalsTotal = updatedResultArr.reduce((total, nums) => {
-      console.log(`${total} ${nums}`)
-      total + nums
-    }, 0)
-    console.log(equalsTotal);
+    if (operationClickCount === 1 && updatedResultArr.length === 0) {
+      if (operationUsed === '^') {
+        equalsTotal = operate(operationUsed, Number(numTwo), Number(numOne));
+        console.log(equalsTotal);
+        display.textContent = equalsTotal
+      } else {
+          equalsTotal = operate(operationUsed, undefined, Number(numOne), Number(numTwo));
+          display.textContent = equalsTotal;
+          console.log(equalsTotal);
+      }
+    } else if ((operationClickCount === 2 || operationClickCount === 3) && updatedResultArr.length != 0) {
+        equalsTotal = updatedResultArr[updatedResultArr.length - 1];
+        if (operationUsed === '^') {
+          equalsTotal = operate(operationUsed, Number(numThree), equalsTotal);
+          console.log(equalsTotal);
+          updatedResultArr.push(equalsTotal);
+          display.textContent = equalsTotal
+        } else {
+          equalsTotal = operate(operationUsed, undefined, equalsTotal, Number(numThree));
+          updatedResultArr.push(equalsTotal);
+          display.textContent = equalsTotal
+          console.log(equalsTotal);
+        }
+        updatedResultIndex++;
+        numThree = 0;
+    } else if (operationClickCount > 3 && updatedResultArr.length != 0) {
+      equalsTotal = updatedResultArr[updatedResultArr.length - 1];
+        if (operationUsed === '^') {
+          equalsTotal = operate(operationUsed, Number(numThree), equalsTotal);
+          console.log(equalsTotal);
+          updatedResultArr.push(equalsTotal);
+          display.textContent = equalsTotal
+        } else {
+          equalsTotal = operate(operationUsed, undefined, equalsTotal, Number(numThree));
+          updatedResultArr.push(equalsTotal);
+          display.textContent = equalsTotal
+          console.log(equalsTotal);
+        }
+        updatedResultIndex++;
+        numThree = 0;
+    }
   })
   
   let plusMinusCountClick = 0;
@@ -213,12 +254,10 @@ function main() {
       }
       if (bucket >= 4) {
         if (number.textContent === '+/-' && plusMinusCountClick3 === 0) {
-          console.log('clicked!')
           numThree = '-' + numThree;
           display.textContent = numThree;
           plusMinusCountClick3 = 1;
         } else if (number.textContent === '+/-' && plusMinusCountClick3 === 1) {
-          console.log('clicked! lol')
           numThree = numThree.slice(1, numThree.length + 1);
           display.textContent = numThree;
           plusMinusCountClick3 = 0;
