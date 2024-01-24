@@ -112,6 +112,7 @@ function main() {
   let currentResult = 0;
   let bucketOperation = '';
   let updatedResultIndex = 1; 
+
   operationsArr.forEach(operation => {  
     operation.addEventListener('click', () => {
       let operationToUse = operationUsed;
@@ -122,7 +123,7 @@ function main() {
       operationUsed += operation.textContent;
       if (operationClickCount === 2) {
         if (num2 === 0 && operationToUse === '÷') {
-          display.textContent = "Error. Can't divide with zero. Press AC to fix.";
+          display.textContent = "Error. Press AC to fix.";
         } else if (operationToUse === '^') {
           result = operate(operationToUse, num2, num1);
           updatedResultArr.push(result);
@@ -141,7 +142,7 @@ function main() {
       } else if (operationClickCount === 3) {
         plusMinusCountClick3 = 0;
         if (Number(numThree) === 0 && operationToUse === '÷') {
-          display.textContent = "Error. Can't divide with zero. Press AC to fix.";
+          display.textContent = "Error. Press AC to fix.";
         } else if (bucketOperation === '^') {
           currentResult = operate(bucketOperation, Number(numThree), updatedResultArr[updatedResultArr.length - 1]);
           updatedResultArr.push(currentResult);
@@ -168,7 +169,7 @@ function main() {
           currentResult = 0;
           currentResult = updatedResultArr[updatedResultIndex];
           if (Number(numThree) === 0 && operationToUse === '÷') {
-            display.textContent = "Error. Can't divide with zero. Press AC to fix.";
+            display.textContent = "Error. Press AC to fix.";
           } else if (bucketOperation === '^') {
             updatedResultArr.push(operate(bucketOperation, Number(numThree), currentResult));
             updatedResultIndex++;
@@ -198,7 +199,7 @@ function main() {
   equals.addEventListener('click', () => {
     if (operationClickCount === 1 && updatedResultArr.length === 0) {
       if (Number(numTwo) === 0 && operationUsed === '÷') {
-        display.textContent = "Error. Can't divide with zero. Press AC to fix.";
+        display.textContent = "Error. Press AC to fix.";
       } else if (operationUsed === '^') {
         equalsTotal = operate(operationUsed, Number(numTwo), Number(numOne));
         display.textContent = equalsTotal
@@ -209,7 +210,7 @@ function main() {
     } else if ((operationClickCount === 2 || operationClickCount === 3) && updatedResultArr.length != 0) {
         equalsTotal = updatedResultArr[updatedResultArr.length - 1];
         if (Number(numThree) === 0 && operationUsed === '÷') {
-          display.textContent = "Error. Can't divide with zero. Press AC to fix.";
+          display.textContent = "Error. Press AC to fix.";
         } else if (operationUsed === '^') {
           equalsTotal = operate(operationUsed, Number(numThree), equalsTotal);
           updatedResultArr.push(equalsTotal);
@@ -224,7 +225,7 @@ function main() {
     } else if (operationClickCount > 3 && updatedResultArr.length != 0) {
         equalsTotal = updatedResultArr[updatedResultArr.length - 1];
         if (Number(numThree) === 0 && operationUsed === '÷') {
-          display.textContent = "Error. Can't divide with zero. Press AC to fix.";
+          display.textContent = "Error. Press AC to fix.";
         } else if (operationUsed === '^') {
           equalsTotal = operate(operationUsed, Number(numThree), equalsTotal);
           updatedResultArr.push(equalsTotal);

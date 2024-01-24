@@ -52,7 +52,7 @@ body {
 .display {
   display: flex;
   align-self: center;
-  margin-top: auto;
+  margin-top: 10px;
   border: 3px solid #7D0A0A;
   width: 95%;
   min-height: 140px;
@@ -61,13 +61,17 @@ body {
 }
 
 .display-text {
-  margin: auto 0 0 0;
+  /* margin: auto 0 0 0; */
+  max-width: 100%;
+  max-height: 100%;
   min-height: 130px;
   display: flex;
+  flex-direction: column-reverse;
+  flex-shrink: 1;
   align-self: center;
   margin-left: auto;
-  padding-right: 10px;
-  font-size: 5em;
+  padding: 10px;
+  font-size: 68px;
 }
 
 .num-buttons {
